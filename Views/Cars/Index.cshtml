@@ -1,0 +1,104 @@
+﻿@model List<LuxuryCarRental.Models.Car>
+@{
+    ViewData["Title"] = "Our Luxury Fleet";
+    var brands = ViewBag.Brands as List<LuxuryCarRental.Models.Brand> ?? new List<LuxuryCarRental.Models.Brand>();
+    var categories = ViewBag.Categories as List<LuxuryCarRental.Models.Category> ?? new List<LuxuryCarRental.Models.Category>();
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-uppercase mb-2">OUR EXCLUSIVE <span class="text-gold">FLEET</span></h1>
+        <p class="text-muted">Select from our prestige collection of luxury cars and supercars.</p>
+    </div>
+
+    <div class="card luxury-card p-4 rounded-0 mb-5 border-secondary">
+        <form asp-controller="Cars" asp-action="Index" method="get" class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <label class="form-label text-muted small">Search By Name / Keyword</label>
+                <input type="text" name="search" value="@Context.Request.Query["search"]" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="e.g. Huracan, Ghost..." />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-muted small">Filter By Brand</label>
+                <select name="brand" class="form-select bg-dark text-light border-secondary rounded-0">
+                    <option value="">All Brands</option>
+                    @foreach (var b in brands)
+                    {
+                        if (Context.Request.Query["brand"] == b.Slug)
+                        {
+                            <option value="@b.Slug" selected>@b.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@b.Slug">@b.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-muted small">Filter By Category</label>
+                <select name="category" class="form-select bg-dark text-light border-secondary rounded-0">
+                    <option value="">All Categories</option>
+                    @foreach (var c in categories)
+                    {
+                        if (Context.Request.Query["category"] == c.Slug)
+                        {
+                            <option value="@c.Slug" selected>@c.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@c.Slug">@c.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-gold w-100 rounded-0 fw-bold text-uppercase py-2">
+                    <i class="bi bi-funnel-fill me-1"></i> Filter
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4">
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <div class="card luxury-card p-5 rounded-0 border-secondary">
+                    <i class="bi bi-car-front fs-1 text-muted mb-3"></i>
+                    <h4 class="text-light">No Vehicles Found</h4>
+                    <p class="text-muted">Try adjusting your search filters or browse all available cars.</p>
+                    <a asp-action="Index" class="btn btn-outline-light rounded-0 btn-sm mt-2 mx-auto" style="width: 150px;">Reset Filters</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var car in Model)
+            {
+                var img = car.CarImages.FirstOrDefault(i => i.IsPrimary)?.ImagePath ?? "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80";
+                <div class="col-md-4">
+                    <div class="card luxury-card h-100 rounded-0 border-secondary">
+                        <div class="position-relative overflow-hidden" style="height: 240px;">
+                            <img src="@img" class="w-100 h-100 object-fit-cover" alt="@car.Name">
+                            <span class="badge bg-dark text-gold position-absolute top-0 end-0 m-3 rounded-0 border border-secondary">@car.Brand?.Name</span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="fw-bold text-uppercase mb-2">@car.Name</h5>
+                            <p class="text-muted small mb-3">@car.Year | @car.Transmission | @car.Engine</p>
+                            
+                            <div class="mt-auto d-flex justify-content-between align-items-center border-top border-secondary pt-3">
+                                <div>
+                                    <small class="text-muted d-block uppercase fs-7">Daily Rate</small>
+                                    <span class="text-gold fw-bold fs-5">AED @car.DailyPrice.ToString("N0")</span>
+                                </div>
+                                <a asp-action="Details" asp-route-slug="@car.Slug" class="btn btn-gold btn-sm rounded-0 px-4 text-uppercase fw-bold">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

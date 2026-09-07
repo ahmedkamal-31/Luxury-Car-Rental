@@ -1,0 +1,42 @@
+﻿@model LuxuryCarRental.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="container py-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card luxury-card p-4 rounded-0">
+                <h3 class="text-uppercase text-center text-gold mb-4 fw-bold">Create Account</h3>
+                
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Email Address</label>
+                        <input asp-for="Email" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="yourname@domain.com" required />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Password</label>
+                        <input asp-for="Password" class="form-control bg-dark text-light border-secondary rounded-0" required />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted small">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" class="form-control bg-dark text-light border-secondary rounded-0" required />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-gold w-100 rounded-0 py-2 text-uppercase fw-bold">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <span class="text-muted small">Already have an account?</span> 
+                    <a asp-action="Login" class="text-gold text-decoration-none small ms-1">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

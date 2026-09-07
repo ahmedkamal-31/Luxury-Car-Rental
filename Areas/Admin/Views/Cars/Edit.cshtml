@@ -1,0 +1,125 @@
+﻿@model LuxuryCarRental.ViewModels.CarEditViewModel
+@{
+    ViewData["Title"] = "Edit Vehicle";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card luxury-card p-4 rounded-0">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <h3 class="fw-bold text-uppercase text-gold mb-0"><i class="bi bi-pencil-square me-2"></i> Edit Vehicle</h3>
+                    <a asp-action="Index" class="btn btn-outline-light btn-sm rounded-0"><i class="bi bi-arrow-left me-1"></i> Back to List</a>
+                </div>
+
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ExistingImagePath" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <h5 class="text-uppercase text-light mb-3 border-start border-gold ps-2">Basic Details</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label text-muted small"></label>
+                            <input asp-for="Name" class="form-control bg-dark text-light border-secondary rounded-0" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label text-muted small"></label>
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select bg-dark text-light border-secondary rounded-0">
+                                <option value="">-- Select Category --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark border-secondary p-3 mb-4">
+                        <h6 class="text-gold text-uppercase mb-3"><i class="bi bi-tag-fill me-2"></i> Brand Specification</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="BrandId" class="form-label text-muted small"></label>
+                                <select asp-for="BrandId" asp-items="ViewBag.Brands" class="form-select bg-dark text-light border-secondary rounded-0">
+                                    <option value="">-- Select Existing Brand --</option>
+                                </select>
+                                <span asp-validation-for="BrandId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 border-start border-secondary ps-3">
+                                <label asp-for="NewBrandName" class="form-label text-muted small"></label>
+                                <input asp-for="NewBrandName" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="Type new brand if not in list..." />
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-uppercase text-light mb-3 border-start border-gold ps-2">Pricing & Media</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label asp-for="DailyPrice" class="form-label text-muted small"></label>
+                            <input asp-for="DailyPrice" type="number" step="0.01" class="form-control bg-dark text-light border-secondary rounded-0" />
+                            <span asp-validation-for="DailyPrice" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="WeeklyPrice" class="form-label text-muted small"></label>
+                            <input asp-for="WeeklyPrice" type="number" step="0.01" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ImageFile" class="form-label text-muted small"></label>
+                            <input asp-for="ImageFile" type="file" accept="image/*" class="form-control bg-dark text-light border-secondary rounded-0" />
+                            @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                            {
+                                <div class="mt-2">
+                                    <small class="text-muted d-block">Current Image:</small>
+                                    <img src="@Model.ExistingImagePath" style="width: 70px; height: 40px; object-fit: cover;" class="border border-secondary mt-1" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <h5 class="text-uppercase text-light mb-3 border-start border-gold ps-2">Specifications</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <label asp-for="Year" class="form-label text-muted small"></label>
+                            <input asp-for="Year" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="Color" class="form-label text-muted small"></label>
+                            <input asp-for="Color" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="Seats" class="form-label text-muted small"></label>
+                            <input asp-for="Seats" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="Transmission" class="form-label text-muted small"></label>
+                            <input asp-for="Transmission" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Engine" class="form-label text-muted small"></label>
+                            <input asp-for="Engine" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EnginePower" class="form-label text-muted small"></label>
+                            <input asp-for="EnginePower" class="form-control bg-dark text-light border-secondary rounded-0" />
+                        </div>
+                    </div>
+
+                    <h5 class="text-uppercase text-light mb-3 border-start border-gold ps-2">Overview</h5>
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label text-muted small"></label>
+                        <textarea asp-for="Description" rows="4" class="form-control bg-dark text-light border-secondary rounded-0"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input asp-for="IsFeatured" class="form-check-input bg-dark border-secondary" />
+                        <label asp-for="IsFeatured" class="form-check-label text-muted small">Show in Home Page Featured Carousel</label>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-0 px-4">Cancel</a>
+                        <button type="submit" class="btn btn-gold rounded-0 px-5 text-uppercase fw-bold">Update Vehicle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

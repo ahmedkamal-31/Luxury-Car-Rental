@@ -1,0 +1,91 @@
+﻿@model List<LuxuryCarRental.Models.Car>
+@{
+    ViewData["Title"] = "Luxury Car Rental - Drive Your Dream";
+    var brands = ViewBag.Brands as List<LuxuryCarRental.Models.Brand> ?? new List<LuxuryCarRental.Models.Brand>();
+}
+
+<!-- Hero Section -->
+<div class="position-relative text-white overflow-hidden py-5 mb-5" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; min-height: 500px; display: flex; align-items: center;">
+    <div class="container text-center py-5">
+        <span class="text-gold text-uppercase fw-bold tracking-widest small mb-2 d-block">Elite Car Rental Experience</span>
+        <h1 class="display-4 fw-bold text-uppercase mb-3">Drive The Most <span class="text-gold">Prestigious</span> Cars</h1>
+        <p class="lead text-muted mb-4 mx-auto" style="max-width: 650px;">Explore our exclusive fleet of world-class supercars and luxury vehicles available for daily and weekly rental in Dubai & UAE.</p>
+        
+        <!-- Search Form -->
+        <form asp-controller="Cars" asp-action="Index" method="get" class="row g-2 justify-content-center bg-dark p-3 border border-secondary mx-auto shadow-lg" style="max-width: 750px;">
+            <div class="col-md-5">
+                <input type="text" name="search" class="form-control bg-dark text-light border-secondary rounded-0 shadow-none" placeholder="Search car model..." />
+            </div>
+            <div class="col-md-4">
+                <select name="brand" class="form-select bg-dark text-light border-secondary rounded-0 shadow-none">
+                    <option value="">All Brands</option>
+                    @foreach (var b in brands)
+                    {
+                        <option value="@b.Slug">@b.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-gold w-100 rounded-0 fw-bold text-uppercase h-100">
+                    <i class="bi bi-search me-1"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container py-4">
+    <!-- Brand Quick Filters -->
+    <div class="mb-5 text-center">
+        <h6 class="text-gold text-uppercase mb-3 tracking-widest">Browse By Brand</h6>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a asp-controller="Cars" asp-action="Index" class="btn btn-outline-light rounded-0 px-3 py-2 text-uppercase small">All Brands</a>
+            @foreach (var b in brands)
+            {
+                <a asp-controller="Cars" asp-action="Index" asp-route-brand="@b.Slug" class="btn btn-outline-secondary rounded-0 px-3 py-2 text-uppercase small text-light">@b.Name</a>
+            }
+        </div>
+    </div>
+
+    <!-- Featured Fleet Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h3 class="fw-bold text-uppercase mb-0"><i class="bi bi-star-fill text-gold me-2"></i> Featured <span class="text-gold">Fleet</span></h3>
+        <a asp-controller="Cars" asp-action="Index" class="btn btn-outline-light btn-sm rounded-0 text-uppercase">View All Fleet <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+
+    <div class="row g-4">
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5 text-muted">No featured vehicles currently available.</div>
+        }
+        else
+        {
+            @foreach (var car in Model)
+            {
+                var img = car.CarImages.FirstOrDefault(i => i.IsPrimary)?.ImagePath ?? "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80";
+                <div class="col-md-4">
+                    <div class="card luxury-card h-100 rounded-0 border-secondary overflow-hidden shadow-sm">
+                        <div class="position-relative overflow-hidden" style="height: 240px;">
+                            <img src="@img" class="w-100 h-100 object-fit-cover" alt="@car.Name">
+                            <span class="badge bg-dark text-gold position-absolute top-0 end-0 m-3 rounded-0 border border-secondary">@car.Brand?.Name</span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="fw-bold text-uppercase mb-2">@car.Name</h5>
+                            <p class="text-muted small mb-3">@car.Year | @car.Transmission | @car.Engine</p>
+                            
+                            <div class="mt-auto d-flex justify-content-between align-items-center border-top border-secondary pt-3">
+                                <div>
+                                    <small class="text-muted d-block uppercase fs-7">Daily Rate</small>
+                                    <span class="text-gold fw-bold fs-5">AED @car.DailyPrice.ToString("N0")</span>
+                                </div>
+                                <a asp-controller="Cars" asp-action="Details" asp-route-slug="@car.Slug" class="btn btn-gold btn-sm rounded-0 px-4 text-uppercase fw-bold">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

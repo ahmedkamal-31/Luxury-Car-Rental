@@ -1,0 +1,99 @@
+﻿/* Global Base Styles */
+body {
+    background-color: #121212 !important;
+    color: #f8f9fa !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* Typography & Contrast Fixes */
+h1, h2, h3, h4, h5, h6, p, span, label, div, small, li, a {
+    color: #f8f9fa;
+}
+
+.text-gold {
+    color: #c5a059 !important;
+}
+
+.bg-gold {
+    background-color: #c5a059 !important;
+    color: #000000 !important;
+}
+
+/* Gold Buttons with Smooth Hover Transition */
+.btn-gold {
+    background-color: #c5a059 !important;
+    color: #000000 !important;
+    border: 1px solid #c5a059 !important;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.btn-gold:hover {
+    background-color: #e0b86c !important;
+    color: #000000 !important;
+    border-color: #e0b86c !important;
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+}
+
+.btn-outline-light, .btn-outline-secondary {
+    transition: all 0.3s ease-in-out !important;
+}
+
+.btn-outline-light:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Secondary Text */
+.text-muted, .text-secondary {
+    color: #bbbbbb !important;
+}
+
+/* Luxury Cards - Smooth Lift & Glow on Hover */
+.luxury-card {
+    background-color: #1a1a1a !important;
+    border: 1px solid #2d2d2d !important;
+    color: #f8f9fa !important;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.luxury-card:hover {
+    border-color: #c5a059 !important;
+    transform: translateY(-6px) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(197, 160, 89, 0.15) !important;
+}
+
+/* Image Smooth Scale inside Cards */
+.luxury-card img {
+    transition: transform 0.5s ease !important;
+}
+
+.luxury-card:hover img {
+    transform: scale(1.04);
+}
+
+/* Form Controls & Focus Rings */
+.form-control, .form-select {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333333 !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border-color: #c5a059 !important;
+    box-shadow: 0 0 0 0.2rem rgba(197, 160, 89, 0.25) !important;
+}
+
+/* Input Placeholders */
+::placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+::-webkit-input-placeholder {
+    color: #aaaaaa !important;
+}

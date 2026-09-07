@@ -1,0 +1,208 @@
+﻿@model LuxuryCarRental.ViewModels.RentalInquiryViewModel
+@{
+    var car = ViewBag.Car as LuxuryCarRental.Models.Car;
+    ViewData["Title"] = car?.Name ?? "Car Details";
+    var primaryImage = car?.CarImages.FirstOrDefault(i => i.IsPrimary)?.ImagePath ?? "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80";
+    decimal dailyPrice = car?.DailyPrice ?? 0;
+}
+
+<div class="container py-5">
+    @if (TempData["BookingSuccess"] != null)
+    {
+        <div class="alert alert-success bg-dark text-success border-success rounded-0 mb-4 p-3">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["BookingSuccess"]
+        </div>
+    }
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <h1 class="fw-bold text-uppercase mb-2">@car?.Name</h1>
+            <p class="text-gold mb-4"><span class="badge bg-secondary me-2">@car?.Brand?.Name</span> <span class="badge bg-dark border border-secondary">@car?.Category?.Name</span></p>
+
+            <div class="card luxury-card p-2 rounded-0 mb-4">
+                <img src="@primaryImage" class="img-fluid w-100" style="max-height: 480px; object-fit: cover;" alt="@car?.Name">
+            </div>
+
+            <div class="card luxury-card p-4 rounded-0 mb-4">
+                <h4 class="text-gold text-uppercase mb-3 fw-bold">Specifications</h4>
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Year</small>
+                        <strong>@car?.Year</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Color</small>
+                        <strong>@car?.Color</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Transmission</small>
+                        <strong>@car?.Transmission</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Engine</small>
+                        <strong>@car?.Engine</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Power</small>
+                        <strong>@car?.EnginePower</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Seats</small>
+                        <strong>@car?.Seats Seats</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card luxury-card p-4 rounded-0">
+                <h4 class="text-gold text-uppercase mb-3 fw-bold">Vehicle Overview</h4>
+                <p class="text-light leading-relaxed">@car?.Description</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card luxury-card p-4 rounded-0 sticky-top" style="top: 90px;">
+                <div class="border-bottom border-secondary pb-3 mb-3 text-center">
+                    <small class="text-muted text-uppercase d-block">Daily Rental Rate</small>
+                    <h3 class="text-gold fw-bold mb-0">AED @car?.DailyPrice.ToString("N0") <span class="fs-6 text-muted">/ day</span></h3>
+                </div>
+
+                <h5 class="text-uppercase text-light mb-3 fw-bold"><i class="bi bi-calendar-check me-2 text-gold"></i> Book Vehicle</h5>
+
+                
+    
+                    <input type="hidden" asp-for="CarId" />
+                    <input type="hidden" id="dailyPrice" value="@dailyPrice" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="CustomerName" class="form-label text-muted small"></label>
+                        <input asp-for="CustomerName" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="John Doe" required />
+                        <span asp-validation-for="CustomerName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label text-muted small"></label>
+                        <input asp-for="Email" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="john@example.com" required />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label text-muted small"></label>
+                        <input asp-for="Phone" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="+971 50 123 4567" required />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label asp-for="StartDate" class="form-label text-muted small"></label>
+                            <input asp-for="StartDate" id="startDate" class="form-control bg-dark text-light border-secondary rounded-0" />
+                            <span asp-validation-for="StartDate" class="text-danger small"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="EndDate" class="form-label text-muted small"></label>
+                            <input asp-for="EndDate" id="endDate" class="form-control bg-dark text-light border-secondary rounded-0" />
+                            <span asp-validation-for="EndDate" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark border-secondary p-3 mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Rental Duration:</span>
+                            <span class="text-light fw-bold" id="totalDaysDisplay">1 Day</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-1">
+                            <span class="text-gold text-uppercase fw-bold small">Total Estimate:</span>
+                            <span class="text-gold fw-bold" id="totalPriceDisplay">AED @car?.DailyPrice.ToString("N0")</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Notes" class="form-label text-muted small"></label>
+                        <textarea asp-for="Notes" rows="2" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="Any special requests..."></textarea>
+                    </div>
+
+                    <form asp-controller="Bookings" asp-action="Create" method="post">
+    <input type="hidden" name="carId" value="@Model.CarId" />
+    <div class="mb-3">
+        <label class="form-label text-light small text-uppercase fw-semibold">Pick-up Date</label>
+        <input type="date" name="startDate" class="form-control bg-black text-light border-secondary rounded-0" value="2026-09-07" min="2026-09-07" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label text-light small text-uppercase fw-semibold">Return Date</label>
+        <input type="date" name="endDate" class="form-control bg-black text-light border-secondary rounded-0" value="2026-09-08" min="2026-09-07" required />
+    </div>
+    <button type="submit" class="btn btn-gold w-100 rounded-0 text-uppercase fw-bold py-2 mt-2">
+        Confirm Booking
+    </button>
+</form>
+                
+
+                <div class="text-center border-top border-secondary pt-3">
+                    <small class="text-muted d-block mb-2">Need immediate assistance?</small>
+                    <a href="https://wa.me/971501234567?text=Hello,%20I%20am%20interested%20in%20booking%20the%20@car?.Name" target="_blank" class="btn btn-outline-success w-100 rounded-0 btn-sm">
+                        <i class="bi bi-whatsapp me-1"></i> Instant WhatsApp Booking
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const startDateInput = document.getElementById("startDate");
+            const endDateInput = document.getElementById("endDate");
+            const dailyPriceInput = parseFloat(document.getElementById("dailyPrice").value) || 0;
+            const totalDaysDisplay = document.getElementById("totalDaysDisplay");
+            const totalPriceDisplay = document.getElementById("totalPriceDisplay");
+
+            function calculateTotal() {
+                if (!startDateInput.value || !endDateInput.value) return;
+
+                const start = new Date(startDateInput.value);
+                const end = new Date(endDateInput.value);
+                
+                let diffTime = end - start;
+                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays <= 0) {
+                    diffDays = 1; // Minimum 1 day
+                }
+
+                let totalPrice = diffDays * dailyPriceInput;
+
+                totalDaysDisplay.textContent = diffDays + (diffDays === 1 ? " Day" : " Days");
+                totalPriceDisplay.textContent = "AED " + totalPrice.toLocaleString();
+            }
+
+            startDateInput.addEventListener("change", function() {
+                // Ensure end date is at least start date
+                if (endDateInput.value < startDateInput.value) {
+                    endDateInput.value = startDateInput.value;
+                }
+                calculateTotal();
+            });
+
+            endDateInput.addEventListener("change", calculateTotal);
+
+            // Initial calculation on load
+            calculateTotal();
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

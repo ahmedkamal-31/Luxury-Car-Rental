@@ -1,0 +1,275 @@
+﻿@model IEnumerable<LuxuryCarRental.Models.Booking>
+
+@{
+    ViewData["Title"] = "Executive Admin Dashboard";
+    decimal totalRevenue = ViewBag.TotalRevenue ?? 0m;
+    var carsList = ViewBag.CarsList as IEnumerable<LuxuryCarRental.Models.Car> ?? new List<LuxuryCarRental.Models.Car>();
+}
+
+<style>
+    .gold-gradient-text {
+        background: linear-gradient(135deg, #d4af37 0%, #fff6cd 50%, #aa7c11 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .card-luxury {
+        background: #0d0d0d;
+        border: 1px solid #222;
+        transition: all 0.3s ease;
+    }
+    .card-luxury:hover {
+        border-color: #d4af37;
+        transform: translateY(-3px);
+    }
+    .nav-tabs-gold .nav-link {
+        color: #888;
+        border: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .nav-tabs-gold .nav-link.active {
+        color: #d4af37;
+        background: transparent;
+        border-bottom: 2px solid #d4af37;
+    }
+</style>
+
+<div class="container-fluid py-4 px-4">
+    <!-- Header with Quick Action -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+        <div>
+            <h2 class="gold-gradient-text text-uppercase fw-bold mb-1">
+                <i class="bi bi-shield-lock-fill me-2"></i> Executive Control Center
+            </h2>
+            <p class="text-muted small mb-0">Overview of financial performance, bookings, and luxury fleet control.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-controller="Cars" asp-action="Create" class="btn btn-gold text-uppercase fw-bold rounded-0 px-3">
+                <i class="bi bi-plus-lg me-1"></i> Add New Vehicle
+            </a>
+            <a asp-controller="Cars" asp-action="Index" class="btn btn-outline-light text-uppercase fw-bold rounded-0 px-3">
+                <i class="bi bi-grid-3x3-gap-fill me-1"></i> Fleet Catalog
+            </a>
+        </div>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-luxury p-3 rounded-0 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-gold text-uppercase small fw-bold d-block mb-1">Total Gross Revenue</span>
+                        <h3 class="text-light fw-bold mb-0">$@totalRevenue.ToString("N0")</h3>
+                        <small class="text-muted">From confirmed reservations</small>
+                    </div>
+                    <div class="p-3 bg-dark text-gold border border-gold rounded-circle">
+                        <i class="bi bi-wallet2 fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-luxury p-3 rounded-0 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted text-uppercase small fw-bold d-block mb-1">Fleet Count</span>
+                        <h3 class="text-light fw-bold mb-0">@(ViewBag.TotalCars ?? 0)</h3>
+                        <small class="text-gold"><i class="bi bi-car-front me-1"></i>Active fleet vehicles</small>
+                    </div>
+                    <div class="p-3 bg-dark text-light border border-secondary rounded-circle">
+                        <i class="bi bi-speedometer fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-luxury p-3 rounded-0 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-warning text-uppercase small fw-bold d-block mb-1">Pending Inquiries</span>
+                        <h3 class="text-warning fw-bold mb-0">@(ViewBag.PendingBookings ?? 0)</h3>
+                        <small class="text-muted">Requires admin review</small>
+                    </div>
+                    <div class="p-3 bg-dark text-warning border border-warning rounded-circle">
+                        <i class="bi bi-hourglass-split fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card card-luxury p-3 rounded-0 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted text-uppercase small fw-bold d-block mb-1">Total Reservations</span>
+                        <h3 class="text-light fw-bold mb-0">@(ViewBag.TotalBookings ?? 0)</h3>
+                        <small class="text-success"><i class="bi bi-check2-all me-1"></i>@(ViewBag.ConfirmedBookings ?? 0) Approved</small>
+                    </div>
+                    <div class="p-3 bg-dark text-light border border-secondary rounded-circle">
+                        <i class="bi bi-journal-check fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabbed Management Section -->
+    <ul class="nav nav-tabs nav-tabs-gold mb-3" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab">
+                <i class="bi bi-list-stars me-2"></i>Customer Reservations
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fleet-tab" data-bs-toggle="tab" data-bs-target="#fleet" type="button" role="tab">
+                <i class="bi bi-car-front-fill me-2"></i>Fleet Management (Edit / Delete)
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+        <!-- Bookings Tab -->
+        <div class="tab-pane fade show active" id="bookings" role="tabpanel">
+            <div class="card bg-black border-secondary rounded-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 align-middle">
+                            <thead class="table-secondary text-uppercase small">
+                                <tr>
+                                    <th class="ps-3">#</th>
+                                    <th>Vehicle</th>
+                                    <th>Rental Period</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model == null || !Model.Any())
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">No reservations found.</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        string brandName = item.Car?.Brand?.Name ?? "";
+                                        string rawCarName = item.Car != null ? (item.Car.GetType().GetProperty("Name")?.GetValue(item.Car)?.ToString() ?? "") : "";
+                                        string displayName = rawCarName;
+                                        if (!string.IsNullOrEmpty(brandName) && !string.IsNullOrEmpty(rawCarName))
+                                        {
+                                            if (!rawCarName.StartsWith(brandName, System.StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                displayName = $"{brandName} {rawCarName}";
+                                            }
+                                        }
+                                        if (string.IsNullOrEmpty(displayName)) { displayName = $"Car #{item.CarId}"; }
+
+                                        <tr>
+                                            <td class="ps-3 fw-bold text-muted">@item.Id</td>
+                                            <td>
+                                                <div class="fw-bold text-light fs-6">@displayName</div>
+                                                <small class="text-muted d-block" style="font-size: 0.75rem;">User ID: @item.UserId</small>
+                                            </td>
+                                            <td>
+                                                <div class="small"><i class="bi bi-calendar-event text-gold me-1"></i> @item.StartDate.ToString("MMM dd, yyyy")</div>
+                                                <div class="small"><i class="bi bi-calendar-check text-muted me-1"></i> @item.EndDate.ToString("MMM dd, yyyy")</div>
+                                            </td>
+                                            <td class="text-gold fw-bold fs-6">$@item.TotalPrice.ToString("N0")</td>
+                                            <td>
+                                                @if (item.Status == "Pending")
+                                                {
+                                                    <span class="badge bg-warning text-dark text-uppercase px-2 py-1"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
+                                                }
+                                                else if (item.Status == "Confirmed")
+                                                {
+                                                    <span class="badge bg-success text-uppercase px-2 py-1"><i class="bi bi-check-circle me-1"></i>Confirmed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger text-uppercase px-2 py-1"><i class="bi bi-x-circle me-1"></i>Cancelled</span>
+                                                }
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <form asp-area="Admin" asp-controller="Bookings" asp-action="UpdateStatus" method="post" class="d-inline">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <input type="hidden" name="status" value="Confirmed" />
+                                                    <button type="submit" class="btn btn-sm btn-success rounded-0 text-uppercase fw-bold me-1" @(item.Status == "Confirmed" ? "disabled" : "")>
+                                                        Approve
+                                                    </button>
+                                                </form>
+                                                <form asp-area="Admin" asp-controller="Bookings" asp-action="UpdateStatus" method="post" class="d-inline">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <input type="hidden" name="status" value="Cancelled" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-0 text-uppercase fw-bold" @(item.Status == "Cancelled" ? "disabled" : "")>
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fleet Tab (Direct Edit / Delete Controls) -->
+        <div class="tab-pane fade" id="fleet" role="tabpanel">
+            <div class="card bg-black border-secondary rounded-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 align-middle">
+                            <thead class="table-secondary text-uppercase small">
+                                <tr>
+                                    <th class="ps-3">ID</th>
+                                    <th>Vehicle Name</th>
+                                    <th>Brand</th>
+                                    <th class="text-end pe-3">Fleet Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!carsList.Any())
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center py-5 text-muted">No vehicles available in fleet.</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var car in carsList)
+                                    {
+                                        string cName = car.GetType().GetProperty("Name")?.GetValue(car)?.ToString() ?? $"Vehicle #{car.Id}";
+                                        <tr>
+                                            <td class="ps-3 fw-bold text-muted">@car.Id</td>
+                                            <td class="fw-bold text-light">@cName</td>
+                                            <td><span class="badge bg-dark border border-secondary text-gold">@(car.Brand?.Name ?? "General")</span></td>
+                                            <td class="text-end pe-3">
+                                                <a asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-sm btn-outline-warning rounded-0 me-1">
+                                                    <i class="bi bi-pencil-square me-1"></i> Edit
+                                                </a>
+                                                <a asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-sm btn-outline-danger rounded-0">
+                                                    <i class="bi bi-trash me-1"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

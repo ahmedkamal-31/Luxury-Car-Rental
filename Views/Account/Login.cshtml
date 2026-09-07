@@ -1,0 +1,41 @@
+﻿@model LuxuryCarRental.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container py-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card luxury-card p-4 rounded-0">
+                <h3 class="text-uppercase text-center text-gold mb-4 fw-bold">Sign In</h3>
+                
+                <form asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Email Address</label>
+                        <input asp-for="Email" class="form-control bg-dark text-light border-secondary rounded-0" placeholder="user@gmail.com" required />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Password</label>
+                        <input asp-for="Password" class="form-control bg-dark text-light border-secondary rounded-0" required />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input asp-for="RememberMe" class="form-check-input bg-dark border-secondary" />
+                        <label class="form-check-label text-muted small">Remember Me</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-gold w-100 rounded-0 py-2 text-uppercase fw-bold">Login</button>
+                </form>
+                <div class="text-center mt-3">
+                    <span class="text-muted small">Don't have an account?</span> 
+                    <a asp-action="Register" class="text-gold text-decoration-none small ms-1">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
