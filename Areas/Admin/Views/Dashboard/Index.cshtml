@@ -1,4 +1,15 @@
-﻿@model IEnumerable<LuxuryCarRental.Models.Booking>
+﻿<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center p-3 rounded border" style="background-color: #111; border-color: #d4af37 !important;">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-people-fill fs-4" style="color: #d4af37;"></i>
+            <span class="fw-bold text-uppercase text-white fs-5">User Management</span>
+        </div>
+        <a href="/Admin/Admin/Users" class="btn fw-bold text-uppercase px-4 py-2" style="background-color: #d4af37; color: #000; letter-spacing: 1px;">
+            Manage Users
+        </a>
+    </div>
+</div>
+@model IEnumerable<LuxuryCarRental.Models.Booking>
 
 @{
     ViewData["Title"] = "Executive Admin Dashboard";
@@ -273,3 +284,5 @@
         </div>
     </div>
 </div>
+
+
