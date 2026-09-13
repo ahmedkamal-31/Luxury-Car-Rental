@@ -72,5 +72,28 @@ namespace LuxuryCarRental.Areas.Admin.Controllers
 
             return View(bookings);
         }
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking != null)
+            {
+                booking.Status = "CONFIRMED";
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking != null)
+            {
+                booking.Status = "CANCELLED";
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

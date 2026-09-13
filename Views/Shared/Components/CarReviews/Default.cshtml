@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LuxuryCarRental.Models.Review>
+
+<div class="mt-5 p-4 rounded border" style="background-color: #0a0a0a; border-color: #d4af37 !important;">
+    <h3 class="text-uppercase fw-bold mb-4" style="color: #d4af37;">
+        <i class="bi bi-star-fill me-2"></i>Customer Reviews
+    </h3>
+
+    <div class="mb-4">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var review in Model)
+            {
+                <div class="p-3 mb-3 rounded" style="background-color: #1a1a1a; border-left: 4px solid #d4af37;">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-white fw-bold mb-1">@review.UserName</h6>
+                        <small class="text-muted">@review.CreatedAt.ToString("MMM dd, yyyy")</small>
+                    </div>
+                    <div class="mb-2">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= review.Rating)
+                            {
+                                <i class="bi bi-star-fill" style="color: #d4af37;"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star text-secondary"></i>
+                            }
+                        }
+                    </div>
+                    <p class="text-light mb-0" style="font-size: 0.95rem;">@review.Comment</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted fst-italic">No reviews yet. Be the first to review this luxury car!</p>
+        }
+    </div>
+
+    <h4 class="text-uppercase fw-bold mb-3" style="color: #d4af37;">Leave a Review</h4>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-controller="Reviews" asp-action="SubmitReview" method="post">
+            <input type="hidden" name="carId" value="@ViewBag.CarId" />
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label text-light fw-semibold">Rating</label>
+                    <select name="rating" class="form-select bg-dark text-white border-secondary" required>
+                        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ - Very Good</option>
+                        <option value="3">⭐⭐⭐ - Good</option>
+                        <option value="2">⭐⭐ - Fair</option>
+                        <option value="1">⭐ - Poor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light fw-semibold">Your Comment</label>
+                <textarea name="comment" rows="3" class="form-control bg-dark text-white border-secondary" placeholder="Share your experience with this car..." required></textarea>
+            </div>
+            <button type="submit" class="btn fw-bold px-4 text-uppercase" style="background-color: #d4af37; color: #000;">
+                Post Review
+            </button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-dark border-warning text-white" style="background-color: #1a1a1a;">
+            You must <a href="/Identity/Account/Login" class="text-warning fw-bold text-decoration-none">Login</a> to leave a review.
+        </div>
+    }
+</div>

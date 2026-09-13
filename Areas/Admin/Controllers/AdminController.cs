@@ -24,7 +24,7 @@ namespace LuxuryCarRental.Areas.Admin.Controllers
         }
 
         // GET: /Admin/Admin/Users or /Admin/Users
-        public async Task<IActionResult> Users()
+        public IActionResult Users()
         {
             var users = _userManager.Users.ToList();
             return View(users);
@@ -59,3 +59,4 @@ namespace LuxuryCarRental.Areas.Admin.Controllers
         }
     }
 }
+
