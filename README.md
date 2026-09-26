@@ -144,6 +144,12 @@ Or open `LuxuryCarRental.sln` in Visual Studio and run the project.
 
 <img width="1440" height="1520" alt="luxury_car_website_redesign" src="https://github.com/user-attachments/assets/097615da-5340-4fe7-a4de-dfe2f526ee12" />
 
+<img width="1905" height="911" alt="brave_screenshot_localhost (3)" src="https://github.com/user-attachments/assets/530a203b-85d6-4656-83de-1cf8cd383e37" />
+<img width="868" height="869" alt="brave_screenshot_localhost (6)" src="https://github.com/user-attachments/assets/a4c007b5-fe25-4138-b473-a1b624d59d33" />
+
+
+
+
 ## 🎯 Project Goal
 
 The goal of this project was to build a realistic luxury car rental platform while applying practical **ASP.NET Core MVC** concepts including:
