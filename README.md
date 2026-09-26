@@ -142,7 +142,7 @@ Or open `LuxuryCarRental.sln` in Visual Studio and run the project.
 
 ## 📸 Screenshots
 
-Screenshots of the application will be added here to showcase the main pages, car catalog, booking flow, and admin dashboard.
+<img width="1440" height="1520" alt="luxury_car_website_redesign" src="https://github.com/user-attachments/assets/097615da-5340-4fe7-a4de-dfe2f526ee12" />
 
 ## 🎯 Project Goal
 
