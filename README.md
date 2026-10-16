@@ -3,6 +3,8 @@
 A full-stack luxury car rental web application built with **ASP.NET Core MVC**.
 The platform allows customers to explore premium vehicles and submit rental bookings, while administrators can manage cars and bookings through a dedicated admin area.
 
+🌐 **Live Demo:** [luxury-car-rental](http://luxury-car-rental.runasp.net/)
+
 ## ✨ Features
 
 ### 👤 Customer Features
@@ -169,11 +171,8 @@ The goal of this project was to build a realistic luxury car rental platform whi
 
 **Ahmed Kamal Mohamed**
 
-Junior .NET Developer focused on:
+Junior .NET Developer focused on **C# · ASP.NET Core · MVC · Entity Framework Core · SQL Server**
 
-**C# · ASP.NET Core · MVC · Entity Framework Core · SQL Server**
-
-🌐 **Live Demo:** [luxury-car-rental](http://luxury-car-rental.runasp.net/)
-
-GitHub:
-https://github.com/ahmedkamal-31
+- GitHub: [@ahmedkamal-31](https://github.com/ahmedkamal-31)
+- LinkedIn: [ahmed-kamal](https://www.linkedin.com/in/ahmed-kamal-135b8b353/)
+- Portfolio: [portfolio-kappa-lake-83.vercel.app](https://portfolio-kappa-lake-83.vercel.app/)
