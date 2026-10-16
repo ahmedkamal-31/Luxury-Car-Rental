@@ -173,7 +173,7 @@ Junior .NET Developer focused on:
 
 **C# · ASP.NET Core · MVC · Entity Framework Core · SQL Server**
 
-🌐 **Live Demo:** [mobile-store.somee.com](http://mobile-store.somee.com/)
+🌐 **Live Demo:** [luxury-car-rental](http://luxury-car-rental.runasp.net/)
 
 GitHub:
 https://github.com/ahmedkamal-31
