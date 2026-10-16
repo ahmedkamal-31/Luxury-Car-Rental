@@ -1,5 +1,4 @@
 # 🚗 Luxury Car Rental
-🌐 **Live Demo:** [mobile-store.somee.com](http://mobile-store.somee.com/)
 
 A full-stack luxury car rental web application built with **ASP.NET Core MVC**.
 The platform allows customers to explore premium vehicles and submit rental bookings, while administrators can manage cars and bookings through a dedicated admin area.
@@ -173,6 +172,8 @@ The goal of this project was to build a realistic luxury car rental platform whi
 Junior .NET Developer focused on:
 
 **C# · ASP.NET Core · MVC · Entity Framework Core · SQL Server**
+
+🌐 **Live Demo:** [mobile-store.somee.com](http://mobile-store.somee.com/)
 
 GitHub:
 https://github.com/ahmedkamal-31
